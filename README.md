@@ -36,6 +36,8 @@ The framework follows best practices such as Page Object Model (POM), fixtures-b
 
 - Reusable utilities and base classes
 
+⚠️ This repository is a portfolio project. Contributions are currently not accepted.
+
 - Config-driven environment handling
 
 - Test data externalization
