@@ -44,4 +44,4 @@ The framework follows best practices such as Page Object Model (POM), fixtures-b
 
 
 
-# ⚠️ This repository is a portfolio project. Contributions are currently not accepted.
+⚠️ This repository is a portfolio project. Contributions are currently not accepted.
