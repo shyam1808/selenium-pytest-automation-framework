@@ -1,7 +1,9 @@
 name: Selenium Pytest Automation
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
 on:
   workflow_dispatch:
@@ -31,8 +33,20 @@ jobs:
         run: |
           pytest -v --html=reports/report.html --self-contained-html
 
-      - name: Deploy Report to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+      # 👇 NEW MODERN PAGES STEPS
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./reports
+          path: ./reports
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
