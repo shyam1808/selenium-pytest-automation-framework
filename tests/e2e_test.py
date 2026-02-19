@@ -10,8 +10,11 @@ from pages.home import HomePage
 from pages.login import LoginPage
 from pages.search import SearchPage
 from pages.success import SuccessPage
+from pathlib import Path
 
-test_data_path = "testdata/test_e2e.json"
+BASE_DIR = Path(__file__).parent   # folder where e2e_test.py exists
+test_data_path = BASE_DIR / "../testdata/test_e2e.json"
+
 with open(test_data_path) as f:
     test_data = json.load(f)
     test_list = test_data["data"]
