@@ -42,6 +42,10 @@ The framework follows best practices such as Page Object Model (POM), fixtures-b
 
 - Structured test layers
 
+![CI](https://github.com/shyam1808/selenium-pytest-automation-framework/actions/workflows/pytest.yml/badge.svg)
+
+🔗 Live Report:
+https://shyam1808.github.io/selenium-pytest-automation-framework/report.html
 
 
 ⚠️ This repository is a portfolio project. Contributions are currently not accepted.
