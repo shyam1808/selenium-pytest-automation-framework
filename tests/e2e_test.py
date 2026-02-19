@@ -13,7 +13,7 @@ from pages.success import SuccessPage
 from pathlib import Path
 
 BASE_DIR = Path(__file__).parent   # folder where e2e_test.py exists
-test_data_path = BASE_DIR / "../testdata/test_e2e.json"
+test_data_path = BASE_DIR / "../testData/test_e2e.json"
 
 with open(test_data_path) as f:
     test_data = json.load(f)
