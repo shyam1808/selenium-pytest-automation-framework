@@ -31,8 +31,8 @@ def browserInstance(request):
         driver.implicitly_wait(5)
     elif browser_name == "firefox":
         driver = webdriver.Firefox()
-        driver.implicitly_wait(5)
     driver.get("https://awesomeqa.com/ui/index.php?route=account/login")
+    driver.implicitly_wait(10) #Global implicit wait
     yield driver
     driver.quit() #teardown
 

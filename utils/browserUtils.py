@@ -1,5 +1,4 @@
 
-
 class BrowserUtils:
 
     def __init__(self,driver):

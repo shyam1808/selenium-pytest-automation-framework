@@ -1,5 +1,4 @@
 import json
-import time
 
 import pytest
 
@@ -12,9 +11,15 @@ from pages.search import SearchPage
 from pages.success import SuccessPage
 from pathlib import Path
 
-BASE_DIR = Path(__file__).parent   # folder where e2e_test.py exists
+# BASE_DIR dynamically resolves the folder where this test file exists.
+# This avoids hardcoding absolute paths and makes project portable.
+BASE_DIR = Path(__file__).parent
+
+# Build test data path relative to project structure.
+# Improves CI/CD compatibility which runs on Linux
 test_data_path = BASE_DIR / "../testData/test_e2e.json"
 
+# Load external test data once at import time.
 with open(test_data_path) as f:
     test_data = json.load(f)
     test_list = test_data["data"]
@@ -22,39 +27,27 @@ with open(test_data_path) as f:
 
 @pytest.mark.parametrize("test_list_item", test_list)
 def test_e2e(browserInstance, test_list_item):
+    # browserInstance is a pytest fixture that provides WebDriver setup/teardown.
     driver = browserInstance
-    driver.implicitly_wait(10)
     login_page = LoginPage(driver)
-    #print(login_Page.getTitle())
+    print(login_page.getTitle()) #coming from BrowserUtils class as login page has inherit it
     login_page.login(test_list_item["userEmail"],test_list_item["userPassword"])
-    #time.sleep(2)
     account_page = AccountPage(driver)
     account_page.clickOpencart()
     home_page = HomePage(driver)
-    #time.sleep(2)
-    #print(shop_Page.getTitle())
+    print(home_page.getTitle())
     home_page.searchProduct("Mac")
-    #time.sleep(2)
     search_page = SearchPage(driver)
-    #time.sleep(2)
     search_page.addToCart("MacBook")
-    #time.sleep(2)
     search_page.goToCart()
-    #time.sleep(2)
     cart_page = CartPage(driver)
     cart_page.checkoutstart()
-    #time.sleep(2)
     checkout_page = CheckOutPage(driver)
     checkout_page.fill_new_billing_address()
-    time.sleep(2)
     checkout_page.fill_existing_delivery_address()
-    time.sleep(2)
     checkout_page.fill_delivery_method()
-    time.sleep(2)
     checkout_page.fill_payment_method()
-    time.sleep(2)
     checkout_page.confirm_order()
-    time.sleep(2)
     success_page = SuccessPage(driver)
     success_page.validate_order()
 

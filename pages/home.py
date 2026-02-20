@@ -1,7 +1,9 @@
 from selenium.webdriver.common.by import By
 
+from utils.browserUtils import BrowserUtils
 
-class HomePage:
+
+class HomePage(BrowserUtils):
     def __init__(self, driver):
         self.driver = driver
         self.search_bar = (By.CSS_SELECTOR, "#search > input")

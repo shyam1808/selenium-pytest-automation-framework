@@ -2,9 +2,10 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 from pages.account import AccountPage
+from utils.browserUtils import BrowserUtils
 
 
-class LoginPage():
+class LoginPage(BrowserUtils): # Make LoginPage inherit BrowserUtils so that we can reuse functions in tests
     def __init__(self,driver):
         self.driver = driver
         self.username_input = (By.ID,"input-email")

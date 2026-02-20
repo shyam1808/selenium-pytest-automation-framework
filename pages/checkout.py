@@ -1,11 +1,20 @@
+import time
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 
+from utils.browserUtils import BrowserUtils
+from utils.waits import WaitUtils
 
 
-class CheckOutPage:
+class CheckOutPage(BrowserUtils):
     def __init__(self, driver):
         self.driver = driver
+        # Create reusable explicit wait instance for this page.
+        # WaitUtils wraps WebDriverWait so we don't repeat wait logic everywhere.
+        self.wait = WaitUtils(driver)
+
+        # Locators are stored as tuples (By, value) to make page objects reusable and maintainable.
         self.newaddress_radio = (By.XPATH,'(//input[@value="new"])[1]')
         self.first_name_field = (By.XPATH, '//input[@name="firstname"]')
         self.last_name_field = (By.XPATH, '//input[@name="lastname"]')
@@ -23,8 +32,12 @@ class CheckOutPage:
 
 
     def fill_new_billing_address(self):
-        self.driver.find_element(*self.newaddress_radio).click()
-        self.driver.find_element(*self.first_name_field).send_keys("Shyamal")
+        """Explicit wait returns a WebElement.
+        ExpectedConditions internally call driver.find_element(),
+        so we DO NOT need a separate find_element line.like this:
+        self.driver.find_element(*self.newaddress_radio).click()"""
+        self.wait.visible(self.newaddress_radio).click()
+        self.wait.visible(self.first_name_field).send_keys("Shyamal")
         self.driver.find_element(*self.last_name_field).send_keys("Srivastava")
         self.driver.find_element(*self.address_field).send_keys("Dummy address 12992")
         self.driver.find_element(*self.city_field).send_keys("test city")
@@ -39,11 +52,11 @@ class CheckOutPage:
         self.driver.find_element(*self.billing_continue_button).click()
 
     def fill_existing_delivery_address(self):
-        self.driver.find_element(*self.shipping_continue_button).click()
+        self.wait.visible(self.shipping_continue_button).click()
 
 
     def fill_delivery_method(self):
-        self.driver.find_element(*self.delivery_method_continue_button).click()
+        self.wait.visible(self.delivery_method_continue_button).click()
 
     def fill_payment_method(self):
         self.driver.find_element(*self.terms_check_box).click()
@@ -51,7 +64,8 @@ class CheckOutPage:
 
 
     def confirm_order(self):
-        self.driver.find_element(*self.confirm_order_continue_button).click()
+        self.wait.visible(self.confirm_order_continue_button).click()
+        time.sleep(2)
 
 
 
