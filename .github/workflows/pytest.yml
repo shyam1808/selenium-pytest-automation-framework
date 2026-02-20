@@ -6,10 +6,18 @@ permissions:
   id-token: write
 
 on:
+  pull_request:
+    branches: [ main ]
+  issue_comment:
+    types: [ created ]
   workflow_dispatch:
 
 jobs:
   test:
+    if: |
+      github.event_name != 'issue_comment' ||
+      contains(github.event.comment.body, '/run')
+
     runs-on: ubuntu-latest
 
     steps:
@@ -39,6 +47,8 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./reports
+
+
 
   deploy:
     environment:
